@@ -13,17 +13,17 @@ app.get('/join', async (req, res) => {
     const groupname = req.query.groupname;
     const memberCount = req.query.count;
 
-    // Assuming you have a user ID parameter in the query
-    const id1 = req.query.userid;
+    // Assuming you have a username parameter in the query
+    const usernameParameter = req.query.username;
 
-    // Construct avatar URL using the user ID parameter
-    const avatarUrl = `https://graph.facebook.com/${id1}/picture?width=720&height=720&access_token=6628568379%7Cc1e620fa708a1d5696fb991c1bde5662`;
+    // Construct avatar URL using the provided username
+    const avatarUrl = `https://graph.facebook.com/${usernameParameter}/picture?width=720&height=720&access_token=6628568379%7Cc1e620fa708a1d5696fb991c1bde5662`;
 
     // Download the profile picture
     const avatarResponse = await axios.get(avatarUrl, { responseType: 'arraybuffer' });
 
     // Save the profile picture to a file
-    const avatarFilePath = __dirname + `/tmp/${id1}_avatar.jpg`;
+    const avatarFilePath = __dirname + `/tmp/${usernameParameter}_avatar.jpg`;
     await fs.writeFile(avatarFilePath, Buffer.from(avatarResponse.data, 'binary'));
 
     const image = await new knights.Welcome2()
